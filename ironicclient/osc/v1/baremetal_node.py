@@ -49,7 +49,7 @@ NETWORK_DATA_ARG_HELP = _(
 
 SUPPORTED_INTERFACES = ['bios', 'boot', 'console', 'deploy', 'inspect',
                         'management', 'network', 'power', 'raid', 'rescue',
-                        'storage', 'vendor']
+                        'security', 'storage', 'vendor']
 
 
 class ProvisionStateBaremetalNode(command.Command):
@@ -438,6 +438,10 @@ class CreateBaremetalNode(command.ShowOne):
             help=_('Rescue interface used by the node\'s driver. This is '
                    'only applicable when the specified --driver is a '
                    'hardware type.'))
+        parser.add_argument(
+            '--security-interface',
+            metavar='<security_interface>',
+            help=_('Security interface used by the node\'s driver.'))
         parser.add_argument(
             '--storage-interface',
             metavar='<storage_interface>',
@@ -1170,6 +1174,12 @@ class SetBaremetalNode(command.Command):
                          'default'),
         )
         self._add_interface_args(
+            parser, 'security',
+            set_help=_('Set the security interface for the node'),
+            reset_help=_('Reset the security interface to its hardware type '
+                         'default'),
+        )
+        self._add_interface_args(
             parser, 'vendor',
             set_help=_('Set the vendor interface for the node'),
             reset_help=_('Reset the vendor interface to its hardware type '
@@ -1538,6 +1548,12 @@ class UnsetBaremetalNode(command.Command):
             help=_('Unset rescue interface on this baremetal node'),
         )
         parser.add_argument(
+            "--security-interface",
+            dest='security_interface',
+            action='store_true',
+            help=_('Unset security interface on this baremetal node'),
+        )
+        parser.add_argument(
             "--storage-interface",
             dest='storage_interface',
             action='store_true',
@@ -1619,9 +1635,10 @@ class UnsetBaremetalNode(command.Command):
                       'deploy_interface', 'inspect_interface',
                       'management_interface', 'network_interface',
                       'power_interface', 'raid_interface', 'rescue_interface',
-                      'storage_interface', 'vendor_interface',
-                      'protected', 'protected_reason', 'retired',
-                      'retired_reason', 'owner', 'lessee', 'description']:
+                      'security_interface', 'storage_interface',
+                      'vendor_interface', 'protected', 'protected_reason',
+                      'retired', 'retired_reason', 'owner', 'lessee',
+                      'description']:
             if getattr(parsed_args, field):
                 properties.extend(utils.args_array_to_patch('remove', [field]))
 

@@ -440,6 +440,11 @@ class TestBaremetalCreate(TestBaremetal):
                                 [('rescue_interface', 'rescue')],
                                 {'rescue_interface': 'rescue'})
 
+    def test_baremetal_create_with_security_interface(self):
+        self.check_with_options(['--security-interface', 'security'],
+                                [('security_interface', 'security')],
+                                {'security_interface': 'security'})
+
     def test_baremetal_create_with_storage_interface(self):
         self.check_with_options(['--storage-interface', 'storage'],
                                 [('storage_interface', 'storage')],
@@ -671,6 +676,7 @@ class TestBaremetalList(TestBaremetal):
             'Resource Class',
             'Retired',
             'Retired Reason',
+            'Security Interface',
             'Storage Interface',
             'Target Power State',
             'Target Provision State',
@@ -2355,6 +2361,9 @@ class TestBaremetalSet(TestBaremetal):
     def test_baremetal_set_rescue_interface(self):
         self._test_baremetal_set_hardware_interface('rescue')
 
+    def test_baremetal_set_security_interface(self):
+        self._test_baremetal_set_hardware_interface('security')
+
     def test_baremetal_set_storage_interface(self):
         self._test_baremetal_set_hardware_interface('storage')
 
@@ -2410,6 +2419,9 @@ class TestBaremetalSet(TestBaremetal):
 
     def test_baremetal_reset_rescue_interface(self):
         self._test_baremetal_reset_hardware_interface('rescue')
+
+    def test_baremetal_reset_security_interface(self):
+        self._test_baremetal_reset_hardware_interface('security')
 
     def test_baremetal_reset_storage_interface(self):
         self._test_baremetal_reset_hardware_interface('storage')
@@ -3369,6 +3381,9 @@ class TestBaremetalUnset(TestBaremetal):
 
     def test_baremetal_unset_rescue_interface(self):
         self._test_baremetal_unset_hw_interface('rescue')
+
+    def test_baremetal_unset_security_interface(self):
+        self._test_baremetal_unset_hw_interface('security')
 
     def test_baremetal_unset_storage_interface(self):
         self._test_baremetal_unset_hw_interface('storage')
